@@ -1,3 +1,5 @@
+using ASPNETCORE_API.Database;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +13,13 @@ builder.Services.AddCors(options =>
      {
          policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
      });
+});
+
+builder.Services.AddEntityFrameworkNpgsql()
+
+builder.Services.AddDbContext<RepositoryContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("sqlConnection"));
 });
 
 builder.Services.AddControllers();
